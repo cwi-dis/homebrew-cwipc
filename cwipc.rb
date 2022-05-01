@@ -6,14 +6,14 @@ class Cwipc < Formula
   homepage "https://github.com/cwi-dis/cwipc"
   license "MIT"
   url "https://github.com/cwi-dis/cwipc.git",
-    tag: "exp-jack-homebrew-0.1",
-    revision: "d2abbba64f2bd4ef1002869427bd0567932dd20a"
-  version "exp-jack-homebrew-0.1"
+    tag: "exp-jack-release-1",
+    revision: "f2eeafe4670d9a5ae7b8a51c0cf7e9d70749c9fa"
+  version "exp-jack-release-1"
 
   depends_on "cmake" => :build
   depends_on "git-lfs" => :build
   depends_on "pcl"
-  depends_on "python3"
+  depends_on "python3@3.9"
   depends_on "jpeg-turbo"
   depends_on "librealsense" => :recommended
 
@@ -21,6 +21,8 @@ class Cwipc < Formula
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
+    # xxxjack need to do:
+    # /opt/homebrew/opt/python@3.9/bin/python3 -m pip install --prefix /opt/homebrew/opt/cwipc --find-links /opt/homebrew/opt/cwipc/share/cwipc/python cwipc_util cwipc_codec cwipc_realsense2
   end
 
   test do
