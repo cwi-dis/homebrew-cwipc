@@ -2,18 +2,17 @@
 #                https://rubydoc.brew.sh/Formula
 # PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
 class Cwipc < Formula
-  desc "xxxjack description goes here"
+  desc "CWI point cloud software suite"
   homepage "https://github.com/cwi-dis/cwipc"
   license "MIT"
-  url "https://github.com/cwi-dis/cwipc.git",
-    tag: "exp-jack-release-1",
-    revision: "f2eeafe4670d9a5ae7b8a51c0cf7e9d70749c9fa"
-  version "exp-jack-release-1"
+  url "https://github.com/cwi-dis/cwipc/releases/download/exp-jack-build/cwipc-exp-jack-build-source-including-submodules.tar.gz"
+  sha256 "3420b43d5292f92e72f2e82430bc7da06b2e115a630aaad7913ef923161c7c9f"
+  version "exp-jack-build"
 
   depends_on "cmake" => :build
   depends_on "git-lfs" => :build
   depends_on "pcl"
-  depends_on "python3@3.9"
+  depends_on "python@3.9"
   depends_on "jpeg-turbo"
   depends_on "librealsense" => :recommended
 
@@ -21,8 +20,11 @@ class Cwipc < Formula
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
-    # xxxjack need to do:
-    # /opt/homebrew/opt/python@3.9/bin/python3 -m pip install --prefix /opt/homebrew/opt/cwipc --find-links /opt/homebrew/opt/cwipc/share/cwipc/python cwipc_util cwipc_codec cwipc_realsense2
+    # This is not really okay: it will install the scripts into /usr/local/bin (or /opt equivalent) while they should be in the cellar.
+    # Have opened https://github.com/pypa/pip/issues/11253 to see if there is a workaround.
+    #system "#{bin}/cwipc_pymodules_install.sh"
+    #system Formula["python@3.9"].opt_bin/"pip3", "--verbose", "install", "--upgrade", "--find-links", "#{prefix}/share/cwipc/python", "cwipc_util", "cwipc_codec", "cwipc_realsense2"
+    opoo "Please run cwipc_pymodules_install.sh manually to install the Python-based cwipc command line tools"
   end
 
   test do
