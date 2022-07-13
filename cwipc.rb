@@ -5,9 +5,9 @@ class Cwipc < Formula
   desc "CWI point cloud software suite"
   homepage "https://github.com/cwi-dis/cwipc"
   license "MIT"
-  url "https://github.com/cwi-dis/cwipc/releases/download/exp-jack-build-4/cwipc-exp-jack-build-4-source-including-submodules.tar.gz"
-  sha256 "20a78770fbba9ead5d19ba6d86733b4419d3555a64d1913e68d3d6aa9113cfc5"
-  version "exp-jack-build-4"
+  url "https://github.com/cwi-dis/cwipc/releases/download/v7.3/cwipc-v7.3-source-including-submodules.tar.gz"
+  sha256 "ebd90b8b9ea84dd315d88ae85f9a6a9806dc7785f4d76ff93c79e9d63f3c9872"
+  version "7.3"
 
   depends_on "cmake" => :build
   depends_on "git-lfs" => :build
