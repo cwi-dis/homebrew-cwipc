@@ -5,9 +5,9 @@ class Cwipc < Formula
   desc "CWI point cloud software suite"
   homepage "https://github.com/cwi-dis/cwipc"
   license "MIT"
-  url "https://github.com/cwi-dis/cwipc/releases/download/v7.4/cwipc-v7.4-source-including-submodules.tar.gz"
-  sha256 "bcb50a9cda62b6f9fc940453d799636d22101d62ff97712b29922ea81122815e"
-  version "7.4"
+  url "https://github.com/cwi-dis/cwipc/releases/download/v7.4.1/cwipc-v7.4.1-source-including-submodules.tar.gz"
+  sha256 "1a66be6a3464771cfcae81f9fedd984d41c994d718ee87c16eb52510e547dd7a"
+  # version "7.4.1"
 
   depends_on "cmake" => :build
   depends_on "git-lfs" => :build
@@ -18,7 +18,7 @@ class Cwipc < Formula
 
   def install
     pyFormula = Formula["python@3.10"]
-    system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=#{version}", *std_cmake_args
+    system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=#{version}", "-DCWIPC_SKIP_PYTHON_INSTALL=1", *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
     # Install a link cwipc_python that points to the Python used to install
