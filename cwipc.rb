@@ -23,7 +23,10 @@ class Cwipc < Formula
     system "cmake", "--install", "build"
     # Install a link cwipc_python that points to the Python used to install
     ln_sf pyFormula.opt_bin/"python3.10", "#{prefix}/bin/cwipc_python"
-    opoo "Please run cwipc_pymodules_install.sh manually to install the Python-based cwipc command line tools"
+    # Hack to make cwipc prefix directory a valid destination for pip installs
+    system "mkdir", "-p", "#{prefix}/lib/python3.10/site-packages"
+    system pyFormula.opt_bin/"python3.10", "-m", "pip", "--verbose", "install", "--prefix", prefix, "--upgrade", "--find-links", "#{prefix}/share/cwipc/python", "cwipc_util", "cwipc_codec", "cwipc_realsense2"
+
   end
 
   test do
