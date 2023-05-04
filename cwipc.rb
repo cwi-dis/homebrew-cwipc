@@ -17,13 +17,12 @@ class Cwipc < Formula
   depends_on "librealsense" => :recommended
 
   def install
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    pyFormula = Formula["python@3.10"]
+    system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=#{version}", *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
-    # This is not really okay: it will install the scripts into /usr/local/bin (or /opt equivalent) while they should be in the cellar.
-    # Have opened https://github.com/pypa/pip/issues/11253 to see if there is a workaround.
-    #system "#{bin}/cwipc_pymodules_install.sh"
-    #system Formula["python@3.10"].opt_bin/"pip3", "--verbose", "install", "--upgrade", "--find-links", "#{prefix}/share/cwipc/python", "cwipc_util", "cwipc_codec", "cwipc_realsense2"
+    # Install a link cwipc_python that points to the Python used to install
+    ln_sf pyFormula.opt_bin/"python3.10", "#{prefix}/bin/cwipc_python"
     opoo "Please run cwipc_pymodules_install.sh manually to install the Python-based cwipc command line tools"
   end
 
