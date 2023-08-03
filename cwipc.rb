@@ -7,6 +7,7 @@ class Cwipc < Formula
   license "MIT"
   url "https://github.com/cwi-dis/cwipc/releases/download/v7.4.2/cwipc-v7.4.2-source-including-submodules.tar.gz"
   sha256 "bdeac677569cb71c91e247e1182cb297fe7d86cdbf845caa00da8f68f42544e5"
+  head "https://github.com/cwi-dis/cwipc.git"
   # version "7.4.1"
 
   depends_on "cmake" => :build
@@ -18,7 +19,11 @@ class Cwipc < Formula
 
   def install
     pyFormula = Formula["python@3.10"]
-    system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=#{version}", "-DCWIPC_SKIP_PYTHON_INSTALL=1", *std_cmake_args
+    if build.head?
+      system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=0.0.0+HEAD", "-DCWIPC_SKIP_PYTHON_INSTALL=1", *std_cmake_args
+    else
+      system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=#{version}", "-DCWIPC_SKIP_PYTHON_INSTALL=1", *std_cmake_args
+    end
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
     # Install a link cwipc_python that points to the Python used to install
