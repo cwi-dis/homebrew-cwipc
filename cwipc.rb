@@ -20,7 +20,8 @@ class Cwipc < Formula
   def install
     pyFormula = Formula["python@3.10"]
     if build.head?
-      system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=0.0.0+HEAD", "-DCWIPC_SKIP_PYTHON_INSTALL=1", *std_cmake_args
+      # Use normal version-finding scheme
+      system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_SKIP_PYTHON_INSTALL=1", *std_cmake_args
     else
       system "cmake", "-S", ".", "-B", "build", "-DPython3_ROOT_DIR=#{pyFormula.opt_prefix}", "-DCWIPC_VERSION=#{version}", "-DCWIPC_SKIP_PYTHON_INSTALL=1", *std_cmake_args
     end
