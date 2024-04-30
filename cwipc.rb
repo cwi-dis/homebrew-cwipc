@@ -5,7 +5,7 @@ class Cwipc < Formula
   version "7.5.2"
   license "MIT"
   sha256 "da752ab3285749fba12d204430d760d167badee6205f7280cef34ffebf1cbe7e"
-  head "https://github.com/cwi-dis/cwipc.git#master"
+  head "https://github.com/cwi-dis/cwipc.git", branch: "master"
   
   depends_on "cmake" => :build
   depends_on "git-lfs" => :build
