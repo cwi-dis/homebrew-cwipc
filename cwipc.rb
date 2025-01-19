@@ -25,13 +25,21 @@ class Cwipc < Formula
     end
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
-    # Install a link cwipc_python that points to the Python used to install
-    ln_sf py_formula.opt_bin/"python3.12", "#{bin}/cwipc_python"
-    # Hack to make cwipc prefix directory a valid destination for pip installs
-    #system "mkdir", "-p", "#{prefix}/lib/python3.12"
-    #system "mkdir", "-p", "#{prefix}/lib/python3.12/site-packages"
-    #system "ls", "-lRa", "#{prefix}/"
-    system "#{bin}/cwipc_python", "-m", "pip", "--verbose", "install", "--prefix", prefix, "--upgrade", "--find-links", "#{pkgshare}/python", "cwipc_util", "cwipc_codec", "cwipc_realsense2"
+    # Create a venv
+    system "#{py_formula.opt_bin}/python3.12", "-m", "venv", "#{libexec}/cwipc/venv"
+    # Install a link cwipc_python that points to the venv Python
+    ln_sf "../libexec/cwipc/venv/bin/python", "#{bin}/cwipc_python"
+    # Install all cwipc packages and dependencies into the venv
+    system "#{libexec}/cwipc/venv/bin/python", "-m", "pip", "install", "--find-links", "#{pkgshare}/python", "cwipc_util", "cwipc_codec", "cwipc_realsense2"
+    # Copy the cwipc_* scripts to the bin directory. NOTE: this needs to be extended every time a new cwipc_* script is added, because unfortunately nothing here seems to speak wildcards.
+    cp "#{libexec}/cwipc/venv/bin/cwipc_forward", "#{bin}"
+    cp "#{libexec}/cwipc/venv/bin/cwipc_grab", "#{bin}"
+    cp "#{libexec}/cwipc/venv/bin/cwipc_register", "#{bin}"
+    cp "#{libexec}/cwipc/venv/bin/cwipc_timing", "#{bin}"
+    cp "#{libexec}/cwipc/venv/bin/cwipc_toproxy", "#{bin}"
+    cp "#{libexec}/cwipc/venv/bin/cwipc_view", "#{bin}"
+    # Run cwipc_view once, so that Python precompiles most needed modules
+    system "#{bin}/cwipc_view", "--version"
   end
 
   test do
