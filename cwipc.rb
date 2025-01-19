@@ -4,7 +4,7 @@ class Cwipc < Formula
   url "https://github.com/cwi-dis/cwipc/releases/download/v7.6.0/cwipc-v7.6.0-source-including-submodules.tar.gz"
   version "7.6.0"
   license "MIT"
-  sha256 "0"
+  sha256 "ab1b6cc3d47f015ac6bc1be895d7cc56e33911b66fd0ce67ed901a3d25c20ee6"
   head "https://github.com/cwi-dis/cwipc.git", branch: "master"
   
   depends_on "cmake" => :build
