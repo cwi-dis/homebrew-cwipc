@@ -1,10 +1,10 @@
 class Cwipc < Formula
   desc "CWI point cloud software suite"
   homepage "https://github.com/cwi-dis/cwipc"
-  url "https://github.com/cwi-dis/cwipc/releases/download/v7.6.0/cwipc-v7.6.0-source-including-submodules.tar.gz"
-  version "7.6.0"
+  url "https://github.com/cwi-dis/cwipc/releases/download/v7.6.5/cwipc-v7.6.5-source-including-submodules.tar.gz"
+  version "7.6.5"
   license "MIT"
-  sha256 "ab1b6cc3d47f015ac6bc1be895d7cc56e33911b66fd0ce67ed901a3d25c20ee6"
+  sha256 "4889401bc26aeb2f450ce8e0e262feb53c1ab315035b729368e3898a6b139c13"
   head "https://github.com/cwi-dis/cwipc.git", branch: "master"
   
   depends_on "cmake" => :build
