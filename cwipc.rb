@@ -31,6 +31,8 @@ class Cwipc < Formula
     ln_sf "../libexec/cwipc/venv/bin/python", "#{bin}/cwipc_python"
     # Install all cwipc packages and dependencies into the venv
     system "#{libexec}/cwipc/venv/bin/python", "-m", "pip", "install", "--find-links", "#{pkgshare}/python", "cwipc_util", "cwipc_codec", "cwipc_realsense2"
+    # Remove a faulty libomp installed by open3d.
+    system "rm", "-f", "../libexec/cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
     # Copy the cwipc_* scripts to the bin directory. NOTE: this needs to be extended every time a new cwipc_* script is added, because unfortunately nothing here seems to speak wildcards.
     cp "#{libexec}/cwipc/venv/bin/cwipc_forward", "#{bin}"
     cp "#{libexec}/cwipc/venv/bin/cwipc_grab", "#{bin}"
