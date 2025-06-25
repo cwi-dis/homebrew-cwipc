@@ -1,10 +1,10 @@
 class Cwipc < Formula
   desc "CWI point cloud software suite"
   homepage "https://github.com/cwi-dis/cwipc"
-  url "https://github.com/cwi-dis/cwipc/releases/download/v7.6.8/cwipc-v7.6.8-source-including-submodules.tar.gz"
-  version "7.6.8"
+  url "https://github.com/cwi-dis/cwipc/releases/download/v7.6.9/cwipc-v7.6.9-source-including-submodules.tar.gz"
+  version "7.6.9"
   license "MIT"
-  sha256 "9d166382a88d65a1e0baf6f594906be3c692296e40948df1516a8d85007b0317"
+  sha256 "3ee57985c4b8bed7c0b91f4412cc41da9dab3fd6522efc7d5d3c69c86e008114"
   head "https://github.com/cwi-dis/cwipc.git", branch: "master"
   
   depends_on "cmake" => :build
@@ -32,7 +32,9 @@ class Cwipc < Formula
     # Install all cwipc packages and dependencies into the venv
     system "#{libexec}/cwipc/venv/bin/python", "-m", "pip", "install", "--find-links", "#{pkgshare}/python", "cwipc_util", "cwipc_codec", "cwipc_realsense2"
     # Remove a faulty libomp installed by open3d.
-    system "rm", "-f", "../libexec/cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
+    if Hardware::CPU.intel?
+      system "rm", "-f", "../libexec/cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
+    end
     # Copy the cwipc_* scripts to the bin directory. NOTE: this needs to be extended every time a new cwipc_* script is added, because unfortunately nothing here seems to speak wildcards.
     cp "#{libexec}/cwipc/venv/bin/cwipc_forward", "#{bin}"
     cp "#{libexec}/cwipc/venv/bin/cwipc_grab", "#{bin}"
