@@ -46,6 +46,7 @@ class Cwipc < Formula
     # Copy the cwipc_* scripts to the bin directory.
     # NOTE: this needs to be extended every time a new cwipc_* script is added,
     # because unfortunately nothing here seems to speak wildcards.
+    cp "#{libexec}/cwipc/venv/bin/cwipc", bin.to_s
     cp "#{libexec}/cwipc/venv/bin/cwipc_forward", bin.to_s
     cp "#{libexec}/cwipc/venv/bin/cwipc_grab", bin.to_s
     cp "#{libexec}/cwipc/venv/bin/cwipc_register", bin.to_s
@@ -53,7 +54,7 @@ class Cwipc < Formula
     cp "#{libexec}/cwipc/venv/bin/cwipc_toproxy", bin.to_s
     cp "#{libexec}/cwipc/venv/bin/cwipc_view", bin.to_s
     # Run cwipc_view once, so that Python precompiles most needed modules
-    system "#{bin}/cwipc_view", "--version"
+    system "#{bin}/cwipc", "view", "--version"
   end
 
   test do
