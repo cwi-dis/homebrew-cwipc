@@ -40,9 +40,7 @@ class Cwipc < Formula
       "--find-links", "#{pkgshare}/python", \
       "cwipc_util", "cwipc_codec", "cwipc_realsense2"
     # Remove a faulty libomp installed by open3d.
-    if Hardware::CPU.intel?
-      rm_f "../libexec/cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
-    end
+    rm "#{libexec}/cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
     # Copy the cwipc_* scripts to the bin directory.
     # NOTE: this needs to be extended every time a new cwipc_* script is added,
     # because unfortunately nothing here seems to speak wildcards.
