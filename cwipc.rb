@@ -35,6 +35,9 @@ class Cwipc < Formula
     system "#{py_formula.opt_bin}/python3.12", "-m", "venv", "#{libexec}/cwipc/venv"
     # Install a link cwipc_python that points to the venv Python
     ln_sf "../libexec/cwipc/venv/bin/python", "#{bin}/cwipc_python"
+    # Install a version of rpds-py that doesn't have the --headerpad problem
+    # Issue reported as https://github.com/crate-py/rpds/issues/200
+    system "#{libexec}/cwipc/venv/bin/python", "-m", "pip", "install", "rpds-py==0.27.1"
     # Install all cwipc packages and dependencies into the venv
     system "#{libexec}/cwipc/venv/bin/python", "-m", "pip", "install", \
       "--find-links", "#{pkgshare}/python", \
