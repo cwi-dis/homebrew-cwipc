@@ -16,6 +16,7 @@ class Cwipc < Formula
 
   def install
     py_formula = Formula["python@3.12"]
+    system "bash", "scripts/install-orbbecsdk-macos.sh"
     if build.head?
       # Use normal version-finding scheme
       system "cmake", "-S", ".", "-B", "build", \
@@ -41,7 +42,7 @@ class Cwipc < Formula
     # Install all cwipc packages and dependencies into the venv
     system "#{libexec}/cwipc/venv/bin/python", "-m", "pip", "install", \
       "--find-links", "#{pkgshare}/python", \
-      "cwipc_util", "cwipc_codec", "cwipc_realsense2"
+      "cwipc_util", "cwipc_codec", "cwipc_realsense2", "cwipc_orbbec"
     # Remove a faulty libomp installed by open3d.
     rm "#{libexec}/cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
     # Copy the cwipc_* scripts to the bin directory.
