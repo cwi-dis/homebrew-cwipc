@@ -1,8 +1,8 @@
 class Cwipc < Formula
   desc "CWI point cloud software suite"
   homepage "https://github.com/cwi-dis/cwipc"
-  url "https://github.com/cwi-dis/cwipc/releases/download/v7.7.4/cwipc-v7.7.4-source-including-submodules.tar.gz"
-  sha256 "de636fe0b819022af74933d5199e0bdf9f5f2a78abddaf3c1b18edb9a8ac22b1"
+  url "https://github.com/cwi-dis/cwipc/releases/download/v8.0.0/cwipc-fullsource-v8.0.0.tar.gz"
+  sha256 "5df60f42acc220df5df8ffc652719e7d062d9765f84f1b180cefea74a83a9189"
   license "MIT"
   head "https://github.com/cwi-dis/cwipc.git", branch: "master"
 
@@ -21,13 +21,11 @@ class Cwipc < Formula
       # Use normal version-finding scheme
       system "cmake", "-S", ".", "-B", "build", \
         "-DPython3_ROOT_DIR=#{py_formula.opt_prefix}", \
-        "-DCWIPC_SKIP_PYTHON_INSTALL=1", \
         *std_cmake_args
     else
       system "cmake", "-S", ".", "-B", "build", \
         "-DPython3_ROOT_DIR=#{py_formula.opt_prefix}", \
         "-DCWIPC_VERSION=#{version}", \
-        "-DCWIPC_SKIP_PYTHON_INSTALL=1", \
         *std_cmake_args
     end
     system "cmake", "--build", "build"
