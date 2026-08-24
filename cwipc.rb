@@ -1,8 +1,9 @@
 class Cwipc < Formula
   desc "CWI point cloud software suite"
   homepage "https://github.com/cwi-dis/cwipc"
-  url "https://github.com/cwi-dis/cwipc/releases/download/v8.0.0/cwipc-fullsource-v8.0.0.tar.gz"
-  sha256 "5df60f42acc220df5df8ffc652719e7d062d9765f84f1b180cefea74a83a9189"
+  # url "https://github.com/cwi-dis/cwipc/releases/download/v8.0.0/cwipc-fullsource-v8.0.0.tar.gz"
+  url "https://github.com/cwi-dis/cwipc/archive/refs/tags/v8.1.0.tar.gz"
+  sha256 "b521105ff391fb185abc36a1f69dfb39531f4f75d7b4a7fb6b5914f5ada35a2a"
   license "MIT"
   head "https://github.com/cwi-dis/cwipc.git", branch: "master"
 
