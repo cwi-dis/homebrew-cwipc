@@ -11,6 +11,8 @@ class Cwipc < Formula
   depends_on "git-lfs" => :build
   depends_on "nlohmann-json" => :build
   depends_on "jpeg-turbo"
+  depends_on "libomp"
+  depends_on "opencv"
   depends_on "pcl"
   depends_on "python@3.12"
   depends_on "librealsense" => :recommended
@@ -42,8 +44,13 @@ class Cwipc < Formula
     system "#{libexec}/cwipc/venv/bin/python", "-m", "pip", "install", \
       "--find-links", "#{pkgshare}/python", \
       "cwipc_util", "cwipc_codec", "cwipc_realsense2", "cwipc_orbbec"
-    # Remove a faulty libomp installed by open3d.
-    rm "#{libexec}/cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
+    # Open3D 0.19 (still used on Intel Macs) ships a too-old libomp.dylib; point it at
+    # Homebrew's instead. Open3D 0.20 no longer ships one. (cwi-dis/cwipc#344)
+    omp = libexec/"cwipc/venv/lib/python3.12/site-packages/open3d/libomp.dylib"
+    if omp.exist?
+      rm omp
+      ln_s formula_opt_lib("libomp")/"libomp.dylib", omp
+    end
     # Copy the cwipc_* scripts to the bin directory.
     # NOTE: this needs to be extended every time a new cwipc_* script is added,
     # because unfortunately nothing here seems to speak wildcards.
