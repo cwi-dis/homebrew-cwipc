@@ -19,7 +19,13 @@ class Cwipc < Formula
 
   def install
     py_formula = Formula["python@3.12"]
-    system "bash", "scripts/install-orbbecsdk-macos.sh"
+    old_orbbec = Pathname("scripts/install-orbbecsdk-macos.sh")
+    new_orbbec = Pathname("scripts/install-orbbecsdk.sh")
+    if new_orbbec.exist?
+      system "bash", new_orbbec
+    else
+      system "bash", old_orbbec
+    end
     if build.head?
       # Use normal version-finding scheme
       system "cmake", "-S", ".", "-B", "build", \
