@@ -5,6 +5,7 @@ class Cwipc < Formula
   url "https://github.com/cwi-dis/cwipc/archive/refs/tags/v8.3.0.tar.gz"
   sha256 "b8c288ddf28ac7e3fdcaaf89739b7b2d7f9ca50544d70fccd1151fc70e6a661e"
   license "MIT"
+  revision 1
   head "https://github.com/cwi-dis/cwipc.git", branch: "master"
 
   depends_on "cmake" => :build
@@ -39,6 +40,20 @@ class Cwipc < Formula
     end
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
+    # Workaround for cwi-dis/cwipc#389: the OrbbecSDK extensions (lib/extensions/*) refer to
+    # @rpath/libOrbbecSDK.2.dylib, but libOrbbecSDK has no rpath, so only programs that happen
+    # to have /opt/homebrew/lib in their rpath chain (Homebrew's Python) can load them; in
+    # Unity or C++ programs the SDK crashes on the first point cloud. Give libOrbbecSDK an
+    # rpath @loader_path (unless it has one already) and re-sign it ad hoc.
+    require "macho"
+    Dir[lib/"libOrbbecSDK.*.dylib"].each do |dylib|
+      next if File.symlink?(dylib)
+      next if MachO.open(dylib).rpaths.include?("@loader_path")
+
+      chmod "u+w", dylib
+      MachO::Tools.add_rpath(dylib, "@loader_path")
+      MachO.codesign!(dylib)
+    end
     # Create a venv
     system "#{py_formula.opt_bin}/python3.12", "-m", "venv", "#{libexec}/cwipc/venv"
     # Install a link cwipc_python that points to the venv Python
